@@ -1,0 +1,75 @@
+
+/*todo prettifying and layout stuff, not needed for card glow part */
+html, 
+body,
+div {
+  display: grid;
+}
+html {
+  min-height: 100%;
+}
+ body {
+  background-image: linear-gradient(
+    hsl(265 50% 50% / 0.4),
+    hsl(180 50% 50% / 0.3)
+  );
+}
+
+@property --a {
+  /* todo must register  --a to animate it */
+  syntax: '<angle>';
+  initial-value: 0deg;
+  /* todo used only on pseudo, nowhere to be inherited */
+  inherits: false;
+}
+
+.card {
+  /* todo hide outer part of glow */
+  overflow: hidden;
+  /* todo needed for absolutely positioned pseudo */
+  position: relative;
+  /* todo adjust width as needed if it's even necessary to set */
+  width: min(12.5em, 80vmin);
+  /* todo adjust aspect-ratio or height if height not given by content   */
+  aspect-ratio: 1;
+  /* todo round outer card corners */
+  border-radius: .5em;
+  /* todo text & layout styles below just for prettifying */
+  place-self: center;
+  place-content: center;
+  padding: .5em;
+  color: #e20c0c;
+  font: clamp(1em, 2vw + 2vh, 2em) sans-serif;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.card::before {
+  /*todo grid doesn't work for stacking when a stacked item is text node */
+  position: absolute;
+  /*todo place behind card content, so card text is selectable, etc */
+  z-index: -1;
+  /*todo best if inset is at least half the border-width with minus */
+  inset: -1em;
+  /*todo reserve space for border */
+  border: solid 1.25em;
+  border-image: 
+  /*todo adjust gradient as needed, I just used a random palette */
+  conic-gradient(from var(--a),#669900, #99cc33, #ccee66, 
+  #006699, #3399cc, #990066, #cc3399, 
+  #ff6600, #ff9900, #ffcc00, #669900) 1;
+  	/*todo blur this pseudo */
+    filter: blur(.75em);
+    /*todo tweak animation duration as necessary */
+    animation: a 4s linear infinite;
+    /*todo needed so pseudo is displayed */
+    content: '';
+}
+
+/*todo animate --a from its initial-value 0deg to 1turn */
+@keyframes a {
+  to {
+    --a: 1turn
+  }
+}
